@@ -1,0 +1,95 @@
+
+version: '3.8'
+
+services:
+
+  monos-market-place-user: 
+    build: 
+      dockerfile: Dockerfile.dev 
+      context: ../../../microservices/user 
+    ports: 
+      - "9001:9001" 
+    volumes: 
+      - /app/node_modules 
+      - ../../../microservices/user:/app 
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  monos-market-place-payment: 
+    build: 
+      dockerfile: Dockerfile.dev 
+      context: ../../../microservices/payment 
+    ports: 
+      - "9002:9002" 
+    volumes: 
+      - /app/node_modules 
+      - ../../../microservices/payment:/app 
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  monos-market-place-subscription: 
+    build: 
+      dockerfile: Dockerfile.dev 
+      context: ../../../microservices/subscription 
+    ports: 
+      - "9003:9003" 
+    volumes: 
+      - /app/node_modules 
+      - ../../../microservices/subscription:/app 
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  monos-market-place-branch: 
+    build: 
+      dockerfile: Dockerfile.dev 
+      context: ../../../microservices/branch 
+    ports: 
+      - "9004:9004" 
+    volumes: 
+      - /app/node_modules 
+      - ../../../microservices/branch:/app 
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  monos-market-place-nginx:
+    depends_on:
+      - monos-market-place-user
+      - monos-market-place-payment
+      - monos-market-place-subscription
+      - monos-market-place-branch
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '4000:80'
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  monos-market-place-krakend:
+    image: devopsfaith/krakend:${KRAKEND_VERSION}-watch
+    ports:
+      - '8000:8000'
+      - '8090:8090'
+    volumes:
+      - ./telemetry/krakend/:/etc/krakend/
+    command: ['run', '-d', '-c', '/etc/krakend/krakend.json']
+
+  monos-market-place-mongodb:
+    image: mongo:${MONGODB_VERSION}
+    ports:
+      - '27017:27017'
+    restart: always
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
+  

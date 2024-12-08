@@ -1,0 +1,32 @@
+{
+  "name": "@monos-market-place/monos-market-place",
+  "version": "1.0.0",
+  "description": "This is a microservices project",
+  "main": "index.js",
+  "scripts": {
+    "repo:reset:1": "rm -rf node_modules",
+    "generate:release": "npx changelogen@latest --release",
+    "release:config": "yarn workspace @monos-market-place/config run release",
+    "release:errors": "yarn workspace @monos-market-place/errors run release",
+    "release:middlewares": "yarn workspace @monos-market-place/middlewares run release",
+    "release:utilities": "yarn workspace @monos-market-place/utilities run release",
+    "release:broker": "yarn workspace @monos-market-place/broker run release",
+    "test": "jest"
+  },
+  "author": "Gilbert",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "microservices/*",
+      "shared/*"
+    ],
+    "nohoist": [
+      "**/@monos-market-place/utilities",
+      "**/@monos-market-place/errors",
+      "**/@monos-market-place/config",
+      "**/@monos-market-place/middleware",
+      "**/@monos-market-place/broker"
+    ]
+  }
+}

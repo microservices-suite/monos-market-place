@@ -1,0 +1,16 @@
+{
+  "name": "@monos-market-place/middlewares",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Gilbert",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "release": "npx bumpp-version@latest && npm publish"
+  },
+  "private": false
+}

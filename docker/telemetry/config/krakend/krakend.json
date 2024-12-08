@@ -1,0 +1,135 @@
+
+{
+  "$schema": "https://www.krakend.io/schema/v2.5/krakend.json",
+  "version": 3,
+  "name": "Monos-market-place API Gateway",
+  "port": 8000,
+  "cache_ttl": "3600s",
+  "timeout": "300s",
+  "endpoints": [
+    {
+      "@comment": "Check the health of all your APIs",
+      "endpoint": "/__suite_status",
+      "method": "GET",
+      "backend": [
+    {
+      "host": ["http://user:9001"],
+      "url_pattern": "/",
+      "mapping": {
+        "message": "user"
+      }
+    },
+
+    {
+      "host": ["http://payment:9002"],
+      "url_pattern": "/",
+      "mapping": {
+        "message": "payment"
+      }
+    },
+
+    {
+      "host": ["http://subscription:9003"],
+      "url_pattern": "/",
+      "mapping": {
+        "message": "subscription"
+      }
+    },
+
+    {
+      "host": ["http://branch:9004"],
+      "url_pattern": "/",
+      "mapping": {
+        "message": "branch"
+      }
+    }]
+    },
+    {
+      "@comment": "Hit all API list endpoints simultaneously",
+      "endpoint": "/api/v1/",
+      "method": "GET",
+      "backend": [
+    {
+      "host": ["http://user:9001"],
+      "url_pattern": "/api/v1/users",
+      "mapping": {
+        "data": "users"
+      }
+    },
+
+    {
+      "host": ["http://payment:9002"],
+      "url_pattern": "/api/v1/payments",
+      "mapping": {
+        "data": "payments"
+      }
+    },
+
+    {
+      "host": ["http://subscription:9003"],
+      "url_pattern": "/api/v1/subscriptions",
+      "mapping": {
+        "data": "subscriptions"
+      }
+    },
+
+    {
+      "host": ["http://branch:9004"],
+      "url_pattern": "/api/v1/branchs",
+      "mapping": {
+        "data": "branchs"
+      }
+    }]
+    },
+    {
+      "@comment": "Fetch all data from the user service",
+      "endpoint": "/api/v1/users",
+      "method": "GET",
+      "backend": [
+    {
+      "host": ["http://user:9001"],
+      "url_pattern": "/api/v1/users",
+      "mapping": {
+        "data": "users"
+      }
+    }]
+    }
+  ],
+   "extra_config": {
+    "telemetry/metrics": {
+        "collection_time": "30s",
+        "listen_address": ":8090"
+    },
+    "telemetry/influx": {
+        "address": "http://influxdb:8086",
+        "ttl": "25s",
+        "buffer_size": 100,
+        "username": "krakend-dev",
+        "password": "pas5w0rd"
+    },
+    "telemetry/logging": {
+        "level": "DEBUG",
+        "prefix": "[SUITE]",
+        "syslog": false,
+        "stdout": true
+    },
+    "telemetry/gelf": {
+        "address": "logstash:12201",
+        "enable_tcp": false
+    },
+    "telemetry/opencensus": {
+        "sample_rate": 100,
+        "reporting_period": 1,
+        "enabled_layers": {
+            "backend": true,
+            "router": true
+        },
+        "exporters": {
+            "jaeger": {
+                "endpoint": "http://jaeger:14268/api/traces",
+                "service_name": "🦧monos-market-place"
+            }
+        }
+    }
+  }
+}

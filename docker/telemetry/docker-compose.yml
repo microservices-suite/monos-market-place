@@ -1,0 +1,70 @@
+
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:${RABBITMQ_VERSION}
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      retries: 5
+
+  influxdb:
+    image: influxdb:${INFLUXDB_VERSION}
+    environment:
+      - "INFLUXDB_DB=krakend"
+      - "INFLUXDB_USER=krakend-dev"
+      - "INFLUXDB_USER_PASSWORD=pas5w0rd"
+      - "INFLUXDB_ADMIN_USER=admin"
+      - "INFLUXDB_ADMIN_PASSWORD=supersecretpassword"
+    ports:
+      - "8086:8086"
+
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION}
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./config/grafana/datasources/all.yaml:/etc/grafana/provisioning/datasources/all.yaml"
+      - "./config/grafana/dashboards/all.yaml:/etc/grafana/provisioning/dashboards/all.yaml"
+      - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
+
+  jaeger:
+    image: jaegertracing/all-in-one:${JAEGER_VERSION}
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+
+  elasticsearch:
+    image: elasticsearch:${ELK_VERSION}
+    container_name: elasticsearch
+    ports:
+      - "19200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+      - "xpack.security.transport.ssl.enabled=false"
+      - "xpack.security.http.ssl.enabled=false"
+      - "ES_JAVA_OPTS=-Xms${ELASTIC_SEARCH_HEAP_INIT} -Xmx${ELASTIC_SEARCH_HEAP_MAX}"
+  logstash:
+    image: logstash:${ELK_VERSION}
+    container_name: logstash
+    ports:
+      - "12201:12201/udp"
+      - "5044:5044"
+    environment:
+      - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
+    volumes:
+      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    command: ["-f", "/usr/share/logstash/pipeline/logstash.conf"]
+    
+  kibana:
+    image: kibana:${ELK_VERSION}
+    container_name: kibana
+    ports:
+      - "5601:5601"
+  

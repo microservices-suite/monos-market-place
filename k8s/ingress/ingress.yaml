@@ -1,0 +1,41 @@
+
+# monos-market-place
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monos-market-place
+  labels:
+    name: monos-market-place
+spec:
+  rules:
+    - host: monos-market-place.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: user
+                port:
+                  number: 9001
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9002
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: subscription
+                port:
+                  number: 9003
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: branch
+                port:
+                  number: 9004

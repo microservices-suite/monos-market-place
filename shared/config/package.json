@@ -1,0 +1,22 @@
+{
+  "name": "@monos-market-place/config",
+  "version": "1.0.0",
+  "description": "This contains common configurations for things like env files,loggers etc for easy setup of environment specific settings",
+  "main": "index.js",
+  "author": "Gilbert",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "release": "npx bumpp-version@latest && npm publish"
+  },
+  "private": false,
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "joi": "^17.13.3",
+    "morgan": "^1.10.0",
+    "winston": "^3.17.0"
+  }
+}

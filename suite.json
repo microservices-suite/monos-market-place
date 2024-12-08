@@ -1,0 +1,42 @@
+{
+  "projectName": "monos-market-place",
+  "repo_name": "monos-market-place",
+  "apis": [
+    "REST"
+  ],
+  "webserver": "nginx",
+  "license": "MIT",
+  "project_base": "@monos-market-place",
+  "private": true,
+  "default_broker": "rabbitmq",
+  "services": [
+    {
+      "name": "user",
+      "port": 9001
+    },
+    {
+      "name": "payment",
+      "port": 9002
+    },
+    {
+      "name": "subscription",
+      "port": 9003
+    },
+    {
+      "name": "branch",
+      "port": 9004
+    }
+  ],
+  "apps": [
+    {
+      "name": "monos-market-place",
+      "GATEWAY_PORT": 8000,
+      "services": [
+        "user",
+        "payment",
+        "subscription",
+        "branch"
+      ]
+    }
+  ]
+}

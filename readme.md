@@ -21,6 +21,13 @@ Before running the project, ensure the following tools are installed on your sys
 
 ## Installation and Setup
 
+### Clone the repository
+
+### cd to project root
+```bash
+git clone https://github.com/microservices-suite/monos-market-place.git
+cd monos-market-place
+```
 ### Start the Application
 ```bash
 suite start -a monos-market-place

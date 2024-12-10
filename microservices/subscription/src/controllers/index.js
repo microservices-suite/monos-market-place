@@ -1,2 +1,6 @@
-const { hello } = require('./controllers');
-module.exports = controllers;
+const subscriptionControllers = require('./subscription.controllers');
+const tierControllers = require('./tier.controllers');
+module.exports = {
+    subscriptionControllers,
+    tierControllers
+};

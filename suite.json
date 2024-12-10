@@ -23,8 +23,8 @@
       "port": 9003
     },
     {
-      "name": "branch",
-      "port": 9004
+      "name": "product",
+      "port": 9008
     }
   ],
   "apps": [
@@ -35,7 +35,7 @@
         "user",
         "payment",
         "subscription",
-        "branch"
+        "product"
       ]
     }
   ]

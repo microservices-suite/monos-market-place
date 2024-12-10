@@ -1,0 +1,263 @@
+.
+├── docker
+│   ├── apps
+│   │   └── monos-market-place
+│   │       ├── Makefile
+│   │       ├── docker-compose.dev.yml
+│   │       ├── docker-compose.yml
+│   │       ├── krakend
+│   │       │   └── krakend.json
+│   │       ├── nginx
+│   │       │   ├── Dockerfile
+│   │       │   ├── Dockerfile.dev
+│   │       │   └── default.conf
+│   │       └── telemetry
+│   │           ├── elastic
+│   │           │   └── dashboard.ndjson
+│   │           ├── grafana
+│   │           │   ├── dashboards
+│   │           │   │   └── all.yaml
+│   │           │   ├── datasources
+│   │           │   │   └── all.yaml
+│   │           │   └── krakend
+│   │           │       └── dashboard.json
+│   │           ├── krakend
+│   │           │   ├── krakend-flexible-config.tmpl
+│   │           │   ├── krakend.json
+│   │           │   ├── partials
+│   │           │   │   ├── extra_config.tmpl
+│   │           │   │   ├── input_headers.tmpl
+│   │           │   │   └── rate_limit_backend.tmpl
+│   │           │   ├── settings
+│   │           │   │   ├── dev
+│   │           │   │   │   ├── env.json
+│   │           │   │   │   └── loop_example.json
+│   │           │   │   └── prod
+│   │           │   │       ├── env.json
+│   │           │   │       └── loop_example.json
+│   │           │   └── templates
+│   │           │       └── sample_template.tmpl
+│   │           └── logstash
+│   │               └── logstash.conf
+│   └── telemetry
+│       └── docker-compose.yml
+├── k8s
+│   ├── README.md
+│   ├── broker
+│   │   ├── clusterIp.yaml
+│   │   ├── deployment.yaml
+│   │   ├── loadBalancer.yaml
+│   │   └── nodePort.yaml
+│   ├── ingress
+│   │   └── ingress.yaml
+│   └── ns
+│       └── default
+│           └── monos-market-place
+│               ├── combo.yaml
+│               ├── payment
+│               │   ├── configMap.yaml
+│               │   ├── db
+│               │   │   ├── clusterIp.yaml
+│               │   │   ├── deployment.yaml
+│               │   │   ├── loadBalancer.yaml
+│               │   │   └── nodePort.yaml
+│               │   ├── secret.yaml
+│               │   └── server
+│               │       ├── clusterIp.yaml
+│               │       ├── deployment.yaml
+│               │       ├── loadBalancer.yaml
+│               │       └── nodePort.yaml
+│               ├── product
+│               │   ├── configMap.yaml
+│               │   ├── db
+│               │   │   ├── clusterIp.yaml
+│               │   │   ├── deployment.yaml
+│               │   │   ├── loadBalancer.yaml
+│               │   │   └── nodePort.yaml
+│               │   ├── secret.yaml
+│               │   └── server
+│               │       ├── clusterIp.yaml
+│               │       ├── deployment.yaml
+│               │       ├── loadBalancer.yaml
+│               │       └── nodePort.yaml
+│               ├── subscription
+│               │   ├── configMap.yaml
+│               │   ├── db
+│               │   │   ├── clusterIp.yaml
+│               │   │   ├── deployment.yaml
+│               │   │   ├── loadBalancer.yaml
+│               │   │   └── nodePort.yaml
+│               │   ├── secret.yaml
+│               │   └── server
+│               │       ├── clusterIp.yaml
+│               │       ├── deployment.yaml
+│               │       ├── loadBalancer.yaml
+│               │       └── nodePort.yaml
+│               └── user
+│                   ├── configMap.yaml
+│                   ├── db
+│                   │   ├── clusterIp.yaml
+│                   │   ├── deployment.yaml
+│                   │   ├── loadBalancer.yaml
+│                   │   └── nodePort.yaml
+│                   ├── secret.yaml
+│                   └── server
+│                       ├── clusterIp.yaml
+│                       ├── deployment.yaml
+│                       ├── loadBalancer.yaml
+│                       └── nodePort.yaml
+├── microservices
+│   ├── payment
+│   │   ├── Dockerfile.dev
+│   │   ├── ecosystem.config.js
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── src
+│   │       ├── controllers
+│   │       │   ├── index.js
+│   │       │   ├── payment.controllers.js
+│   │       │   └── transaction.controllers.js
+│   │       ├── models
+│   │       │   ├── index.js
+│   │       │   ├── payment.models.js
+│   │       │   └── transaction.model.js
+│   │       ├── routes
+│   │       │   ├── index.js
+│   │       │   ├── payment.routes.js
+│   │       │   └── transaction.routes.js
+│   │       ├── services
+│   │       │   ├── index.js
+│   │       │   ├── services.js
+│   │       │   └── transaction.services.js
+│   │       └── subscriber
+│   │           ├── index.js
+│   │           └── subscriber.js
+│   ├── product
+│   │   ├── Dockerfile.dev
+│   │   ├── ecosystem.config.js
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── src
+│   │       ├── controllers
+│   │       │   ├── controllers.js
+│   │       │   └── index.js
+│   │       ├── models
+│   │       │   ├── index.js
+│   │       │   └── models.js
+│   │       ├── routes
+│   │       │   ├── index.js
+│   │       │   └── routes.js
+│   │       ├── rpc
+│   │       │   ├── product.proto
+│   │       │   └── quota.js
+│   │       ├── services
+│   │       │   ├── index.js
+│   │       │   └── services.js
+│   │       └── subscriber
+│   │           ├── index.js
+│   │           └── subscriber.js
+│   ├── subscription
+│   │   ├── Dockerfile.dev
+│   │   ├── ecosystem.config.js
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── src
+│   │       ├── controllers
+│   │       │   ├── index.js
+│   │       │   ├── subscription.controllers.js
+│   │       │   └── tier.controllers.js
+│   │       ├── models
+│   │       │   ├── index.js
+│   │       │   ├── subscription.models.js
+│   │       │   └── tier.models.js
+│   │       ├── routes
+│   │       │   ├── index.js
+│   │       │   ├── subscription.routes.js
+│   │       │   └── tier.routes.js
+│   │       ├── rpc
+│   │       │   ├── quota.js
+│   │       │   └── subscription.proto
+│   │       ├── services
+│   │       │   ├── index.js
+│   │       │   ├── subscription.services.js
+│   │       │   └── tier.services.js
+│   │       └── subscriber
+│   │           ├── index.js
+│   │           └── subscriber.js
+│   └── user
+│       ├── Dockerfile.dev
+│       ├── ecosystem.config.js
+│       ├── index.js
+│       ├── package.json
+│       └── src
+│           ├── controllers
+│           │   ├── index.js
+│           │   ├── merchant.controllers.js
+│           │   └── user.controllers.js
+│           ├── models
+│           │   ├── index.js
+│           │   ├── merchant.models.js
+│           │   └── user.models.js
+│           ├── routes
+│           │   ├── index.js
+│           │   ├── merchant.routes.js
+│           │   └── user.routes.js
+│           ├── services
+│           │   ├── index.js
+│           │   ├── merchant.services.js
+│           │   └── user.services.js
+│           └── subscriber
+│               ├── index.js
+│               └── subscriber.js
+├── package.json
+├── readme.md
+├── shared
+│   ├── broker
+│   │   ├── README.md
+│   │   ├── package.json
+│   │   └── rabbitmq
+│   │       ├── exchange.js
+│   │       ├── index.js
+│   │       ├── publisher.js
+│   │       ├── subscriber.js
+│   │       └── worker.queue.js
+│   ├── config
+│   │   ├── README.md
+│   │   ├── config.js
+│   │   ├── index.js
+│   │   ├── logger.js
+│   │   ├── morgan.js
+│   │   └── package.json
+│   ├── errors
+│   │   ├── README.md
+│   │   ├── errors.handler.js
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── middlewares
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   └── utilities
+│       ├── APIError.js
+│       ├── README.md
+│       ├── asyncErrorHandler.js
+│       ├── index.js
+│       ├── package.json
+│       ├── pick.js
+│       └── validate.js
+├── suite.config
+├── suite.html
+├── suite.json
+├── suite.tree
+└── tests
+    └── user
+        ├── e2e
+        │   └── test1.js
+        ├── integration
+        │   └── test1.js
+        ├── snapshot
+        │   └── test1.js
+        └── unit
+            └── test1.js
+
+82 directories, 179 files

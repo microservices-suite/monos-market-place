@@ -28,9 +28,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - "./config/grafana/datasources/all.yaml:/etc/grafana/provisioning/datasources/all.yaml"
-      - "./config/grafana/dashboards/all.yaml:/etc/grafana/provisioning/dashboards/all.yaml"
-      - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
+      - "./telemetry/grafana/datasources/all.yaml:/etc/grafana/provisioning/datasources/all.yaml"
+      - "./telemetry/grafana/dashboards/all.yaml:/etc/grafana/provisioning/dashboards/all.yaml"
+      - "./telemetry/grafana/krakend:/var/lib/grafana/dashboards/krakend"
 
   jaeger:
     image: jaegertracing/all-in-one:${JAEGER_VERSION}
@@ -59,7 +59,7 @@ services:
     environment:
       - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
     volumes:
-      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./telemetry/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     command: ["-f", "/usr/share/logstash/pipeline/logstash.conf"]
     
   kibana:

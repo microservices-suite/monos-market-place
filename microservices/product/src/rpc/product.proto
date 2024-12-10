@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+service ProductService {
+  // Method to create a product
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+
+  // Method to get a list of products
+  rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
+
+  // Method to get a single product by ID
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+
+  // Method to update product details
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+
+  // Method to delete a product
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  string category = 4;
+}
+
+message CreateProductResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+}
+
+message GetProductsRequest {}
+
+message GetProductsResponse {
+  repeated Product products = 1;
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+}
+
+message UpdateProductResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+}
+
+message DeleteProductRequest {
+  string id = 1;
+}
+
+message DeleteProductResponse {
+  string message = 1;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+}

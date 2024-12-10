@@ -4,8 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { config, morgan, logger } = require('@monos-market-place/config');
 const { errorHandler } = require('@monos-market-place/errors');
-const { validate, APIError } = require('@monos-market-place/utilities');
-const { router } = require('./src/routes');
+const { APIError } = require('@monos-market-place/utilities');
+const  router  = require('./src/routes');
 const { subscriber } = require('./src/subscriber');
 const rabbitmq = require('@monos-market-place/broker/rabbitmq');
 

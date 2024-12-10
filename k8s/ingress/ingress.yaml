@@ -36,6 +36,6 @@ spec:
             path: "/"
             backend:
               service:
-                name: branch
+                name: product
                 port:
-                  number: 9004
+                  number: 9008

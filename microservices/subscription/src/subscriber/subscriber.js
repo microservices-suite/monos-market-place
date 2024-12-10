@@ -1,5 +1,5 @@
 
-const subscriptionService = require('../services/services');
+const subscriptionService = require('../services');
 const rabbitmq = require('@monos-market-place/broker/rabbitmq');
 
 const subscribe = async ({ channel, config, routing_key }) => {

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package subscription;
+
+// Subscription message structure
+message Subscription {
+  string userId = 1;
+  bool isActive = 2;
+  string plan = 3; // e.g. "Starter", "Pro", "Enterprise"
+  string startDate = 4;
+  string endDate = 5;
+}
+
+// Request message for checking active subscription
+message CheckActiveSubscriptionRequest {
+  string userId = 1;
+}
+
+// Response message for checking active subscription
+message CheckActiveSubscriptionResponse {
+  bool isActive = 1;
+  string plan = 2;
+  string message = 3;
+}
+
+// Subscription service definition
+service SubscriptionService {
+  // Check if a user has an active subscription
+  rpc CheckActiveSubscription(CheckActiveSubscriptionRequest) returns (CheckActiveSubscriptionResponse);
+}

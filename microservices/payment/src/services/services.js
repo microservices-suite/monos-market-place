@@ -1,6 +1,6 @@
 
 const { ObjectId } = require('mongodb');
-const Payment  = require('../models/models');
+const Payment  = require('../models/payment.models');
 
 const createPayment = async ({ body }) => {
     const payment = await Payment.create(body);

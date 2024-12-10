@@ -214,73 +214,73 @@ spec:
 ---
 
 
-# Deployment for branch
+# Deployment for product
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: branch
+  name: product
 spec:
   selector:
     matchLabels:
-      app: branch
+      app: product
   template:
     metadata:
       labels:
-        app: branch
+        app: product
     spec:
       containers:
-      - name: branch
-        image: monos-market-place/branch:latest
+      - name: product
+        image: monos-market-place/product:latest
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 9004
+        - containerPort: 9008
 ---
 
-# Service for branch (ClusterIP)
+# Service for product (ClusterIP)
 apiVersion: v1
 kind: Service
 metadata:
-  name: branch
+  name: product
 spec:
   type: ClusterIP
   selector:
-    app: branch
+    app: product
   ports:
-    - port: 9004
-      targetPort: 9004
+    - port: 9008
+      targetPort: 9008
       
 ---
 
-# Service for branch (LoadBalancer)
+# Service for product (LoadBalancer)
 apiVersion: v1
 kind: Service
 metadata:
-  name: branch
+  name: product
 spec:
   type: LoadBalancer
   selector:
-    app: branch
+    app: product
   ports:
-    - port: 9004
-      targetPort: 9004
+    - port: 9008
+      targetPort: 9008
       
 ---
 
-# Service for branch (NodePort)
+# Service for product (NodePort)
 apiVersion: v1
 kind: Service
 metadata:
-  name: branch
+  name: product
 spec:
   type: NodePort
   selector:
-    app: branch
+    app: product
   ports:
-    - port: 9004
-      targetPort: 9004
+    - port: 9008
+      targetPort: 9008
       
 ---
 
@@ -326,9 +326,9 @@ spec:
             path: "/"
             backend:
               service:
-                name: branch
+                name: product
                 port:
-                  number: 9004
+                  number: 9008
     
 ---
 

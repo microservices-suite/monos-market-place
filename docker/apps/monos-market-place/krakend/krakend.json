@@ -37,10 +37,10 @@
     },
 
     {
-      "host": ["http://branch:9004"],
+      "host": ["http://product:9008"],
       "url_pattern": "/",
       "mapping": {
-        "message": "branch"
+        "message": "product"
       }
     }]
     },
@@ -74,10 +74,10 @@
     },
 
     {
-      "host": ["http://branch:9004"],
-      "url_pattern": "/api/v1/branchs",
+      "host": ["http://product:9008"],
+      "url_pattern": "/api/v1/products",
       "mapping": {
-        "data": "branchs"
+        "data": "products"
       }
     }]
     },

@@ -1,2 +1,6 @@
-const models = require('./model');
-module.exports = models;
+const paymentModel = require('./payment.models');
+const transactionModel = require('./transaction.model');
+module.exports = {
+    paymentModel,
+    transactionModel
+};

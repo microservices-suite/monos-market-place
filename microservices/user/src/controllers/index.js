@@ -1,2 +1,6 @@
-const { hello } = require('./controllers');
-module.exports = controllers;
+const userContrellers = require('./user.controllers');
+const merchantContrellers = require('./merchant.controllers');
+module.exports = {
+    userContrellers,
+    merchantContrellers
+};

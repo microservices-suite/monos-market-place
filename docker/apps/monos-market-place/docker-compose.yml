@@ -3,64 +3,57 @@ version: '3.8'
 
 services:
 
-  monos-market-place-user: 
+  user: 
     build: 
       dockerfile: Dockerfile.dev 
-      context: ../../../microservices/user 
+      context: ../../../microservices/user
+    container_name: user
     ports: 
       - "9001:9001" 
     volumes: 
       - /app/node_modules 
       - ../../../microservices/user:/app 
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 
-  monos-market-place-payment: 
+  payment: 
     build: 
       dockerfile: Dockerfile.dev 
-      context: ../../../microservices/payment 
+      context: ../../../microservices/payment
+    container_name: payment
     ports: 
       - "9002:9002" 
     volumes: 
       - /app/node_modules 
       - ../../../microservices/payment:/app 
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 
-  monos-market-place-subscription: 
+  subscription: 
     build: 
       dockerfile: Dockerfile.dev 
-      context: ../../../microservices/subscription 
+      context: ../../../microservices/subscription
+    container_name: subscription
     ports: 
       - "9003:9003" 
     volumes: 
       - /app/node_modules 
       - ../../../microservices/subscription:/app 
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
 
-  monos-market-place-branch: 
+  product: 
     build: 
       dockerfile: Dockerfile.dev 
-      context: ../../../microservices/branch 
+      context: ../../../microservices/product
+    container_name: product
     ports: 
-      - "9004:9004" 
+      - "9008:9008" 
     volumes: 
       - /app/node_modules 
-      - ../../../microservices/branch:/app 
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
+      - ../../../microservices/product:/app 
 
-  monos-market-place-nginx:
+  nginx:
+    container_name: nginx
     depends_on:
-      - monos-market-place-user
-      - monos-market-place-payment
-      - monos-market-place-subscription
-      - monos-market-place-branch
+      - user
+      - payment
+      - subscription
+      - product
     restart: always
     build:
       context: ./nginx
@@ -74,19 +67,21 @@ services:
       retries: 3
       start_period: 40s
 
-  monos-market-place-krakend:
+  krakend:
     image: devopsfaith/krakend:${KRAKEND_VERSION}
     ports:
       - '8000:8000'
       - '8090:8090'
+    container_name: krankend
     volumes:
       - ./telemetry/krakend/:/etc/krakend/
     command: ['run', '-d', '-c', '/etc/krakend/krakend.json']
 
-  monos-market-place-mongodb:
+  mongodb:
     image: mongo:${MONGODB_VERSION}
     ports:
       - '27017:27017'
+    container_name: mongodb
     restart: always
     volumes:
       - type: bind
